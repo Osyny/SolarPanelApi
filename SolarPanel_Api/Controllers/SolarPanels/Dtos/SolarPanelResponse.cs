@@ -1,4 +1,4 @@
-﻿using SolarPanel_Api.Controllers.SolarPanels.Models;
+﻿using SolarPanel_Api.Dtos;
 
 namespace SolarPanel_Api.Controllers.SolarPanels.Dtos
 {

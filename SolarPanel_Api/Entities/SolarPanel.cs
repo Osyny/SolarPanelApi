@@ -14,7 +14,7 @@ namespace SolarPanel_Api.Entities
         // Properties
         public int Width { get; set; }
         public int Length { get; set; }
-        public decimal Power { get; set; }
+        public int Power { get; set; }
         public int Stock { get; set; }
 
     }
