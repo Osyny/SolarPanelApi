@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using SolarPanel_Api.Controllers.SolarPanels.Dtos;
-using SolarPanel_Api.Controllers.SolarPanels.Models;
+using SolarPanel_Api.Dtos;
 using SolarPanel_Api.Entities;
+using SolarPanel_Api.Extentions;
 using SolarPanel_Api.Services.AzureTable;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SolarPanel_Api.Controllers.SolarPanels
 {
@@ -17,16 +20,15 @@ namespace SolarPanel_Api.Controllers.SolarPanels
             _azureStorageTableService = azureStorageTableService;
         }
 
-        [HttpGet]
-        public async Task<SolarPanelResponse> GetAll()
+        [HttpGet("getAll")]
+        public async Task<SolarPanelResponse> GetAll([FromQuery] DataInput input)
         {
-            List<SolarPanelDto> solarPanels = await _azureStorageTableService.GetAll();
+            var solarPanels = await _azureStorageTableService.GetAll(input);
             SolarPanelResponse solarPanelResponse = new SolarPanelResponse()
             {
                 SolarPanels = solarPanels,
-                Total = solarPanels.Count,
+                Total = solarPanels.ToList().Count,
             };
-
             return solarPanelResponse;
         }
 
@@ -49,7 +51,7 @@ namespace SolarPanel_Api.Controllers.SolarPanels
             }
             else
             {
-                await _azureStorageTableService.Update(solarPanel.Id, solarPanel);
+                response = await _azureStorageTableService.Update(solarPanel.Id, solarPanel);
             }
             return response;
 
@@ -60,6 +62,14 @@ namespace SolarPanel_Api.Controllers.SolarPanels
         {
             return await _azureStorageTableService.Delete(Id);
         }
+
+        [HttpGet("configurator")]
+        public async Task<ConfiguratorResponse> Configurator([FromQuery] DataConfigurator input)
+        {
+            ConfiguratorResponse resultCalculateNeededPanels = await _azureStorageTableService.Configurator(input);
+               return resultCalculateNeededPanels;
+        }
+
 
     }
 }
