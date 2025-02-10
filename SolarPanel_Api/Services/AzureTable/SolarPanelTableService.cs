@@ -135,9 +135,6 @@ namespace SolarPanel_Api.Services.AzureTable
             var allPannels = await GetAll();
             foreach (var pannel in allPannels) 
             {
-                //int columns = input.WidthRoof / pannel.Width;
-                //int rows = input.LengthRoof / pannel.Length;
-                //int pannels = columns * rows;
                 int pannels = (int)(input.WidthRoof / pannel.Width) * (int)(input.LengthRoof / pannel.Length);
                 pannels = pannels > pannel.Stock ? pannel.Stock : pannels;
                 int power = pannels * pannel.Power;
@@ -148,12 +145,6 @@ namespace SolarPanel_Api.Services.AzureTable
                     output.TotalPower = power;
                 }
             }
-
-            Console.WriteLine("----------- Best configuration for this roof -----------");
-            Console.WriteLine($"Pannel parameters: width - {output.Panel.Width}, lenght - {output.Panel.Length}, power - {output.Panel.Power}");
-            Console.WriteLine($"Needed pannels: {output.Panel.Stock}");
-            Console.WriteLine($"Total power: {output.TotalPower}\n--------------------------------------------");
-
             return output;
         }
 

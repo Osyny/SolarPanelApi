@@ -69,11 +69,6 @@ namespace SolarPanel_Api.Controllers.SolarPanels
             ConfiguratorResponse resultCalculateNeededPanels = await _azureStorageTableService.Configurator(input);
                return resultCalculateNeededPanels;
         }
-        [HttpGet("test")]
-        public async Task<string> test()
-        {
-            return "TEST";
-        }
 
     }
 }
